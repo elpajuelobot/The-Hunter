@@ -68,4 +68,4 @@ Este framework cuenta con un sistema de notificaciones conectado con discord, us
 
 *Conexión a internet* para la creación y funcionamiento del túnel. 
 
-S4vi I ❤️ you
+*Seguir y ver a S4vitar* **OBLIGATORIO**
