@@ -66,4 +66,4 @@ Este framework cuenta con un sistema de notificaciones conectado con discord, us
 *OS basado en linux.* Ej: Ubuntu, Arch, Kali, Parrot, Mint, etc.
 
 
-*Conexión a interner* para la creación y funcionamiento del túnel. 
+*Conexión a internet* para la creación y funcionamiento del túnel. 
