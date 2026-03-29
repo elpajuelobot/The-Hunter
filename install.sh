@@ -24,6 +24,7 @@ if [ $? -eq 0 ]; then
 
     echo "[+] Recursos desplegados. Iniciando motor..."
     chmod +x init.sh
+    chmod +x cleanup.sh
     sudo ./init.sh
 else
     echo "[X] Clave incorrecta."
