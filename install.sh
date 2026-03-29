@@ -7,7 +7,7 @@ if ! command -v unzip &> /dev/null; then
 fi
 
 if [ ! -f "data.assets" ]; then
-    echo "[!] Error: No se encuentra data.assets."
+    echo "[!] Error: data.assets no encontrado."
     exit 1
 fi
 
