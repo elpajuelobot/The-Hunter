@@ -69,3 +69,8 @@ Este framework cuenta con un sistema de notificaciones conectado con discord, us
 *Conexión a internet* para la creación y funcionamiento del túnel. 
 
 *Seguir y ver a S4vitar* **OBLIGATORIO**
+
+# Termux
+
+He sacado una versión de este framework adaptado a su uso en Termux para a los que nos gusta hacer estas cositas por el móvil. [The-Hunter-Termux-Version](https://github.com/elpajuelobot/The-Hunter-Termux-Version.git) tiene exactamente el mismo funcionamiento que el The-Hunter original (Este es el original)
+pero completamente adaptado a su funcionamiento en Android con Termux y lo mejor de todo, este framework es Root-less, es decir, que no necesitas tener el móvil rooteado para poder usarlo.
