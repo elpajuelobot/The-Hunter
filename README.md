@@ -1,5 +1,10 @@
  # The-Hunter
 
+![Python](https://img.shields.io/badge/Python-3.10+-blue?style=for-the-badge&logo=python)
+![Termux](https://img.shields.io/badge/Termux-Supported-green?style=for-the-badge&logo=termux)
+![License](https://img.shields.io/badge/License-Educational_Use-red?style=for-the-badge)
+
+
 ![banner-inicial](assets/banner.png)
 
 
