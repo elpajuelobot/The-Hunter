@@ -1,6 +1,7 @@
  # The-Hunter
 
 ![Python](https://img.shields.io/badge/Python-3.10+-blue?style=for-the-badge&logo=python)
+![Linux](https://img.shields.io/badge/Linux-Supported-yellow?style=for-the-badge&logo=linux&logoColor=black)
 ![License](https://img.shields.io/badge/License-Educational_Use-red?style=for-the-badge)
 
 
