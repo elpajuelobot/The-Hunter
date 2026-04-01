@@ -15,6 +15,28 @@ ICON_CHECK="✔"
 ICON_STEP="→"
 ICON_INFO="ℹ"
 
+ARCH_RAW=$(uname -m)
+case "$ARCH_RAW" in
+    x86_64) ARCH="amd64" ;;
+    aarch64|armv8*) ARCH="arm64" ;;
+    i386|i686) ARCH="386" ;;
+    *) ARCH="amd64" ;;
+esac
+
+if command -v apt-get &> /dev/null; then
+    PKG_MANAGER="apt-get"
+    INSTALL_CMD="apt-get install -y"
+    UPDATE_CMD="apt-get update -qq"
+elif command -v dnf &> /dev/null; then
+    PKG_MANAGER="dnf"
+    INSTALL_CMD="dnf install -y"
+    UPDATE_CMD="dnf check-update"
+elif command -v pacman &> /dev/null; then
+    PKG_MANAGER="pacman"
+    INSTALL_CMD="pacman -S --noconfirm"
+    UPDATE_CMD="pacman -Sy"
+fi
+
 # Uso: show_progress <duración_estimada_segundos> <mensaje>
 show_progress() {
     local duration=$1
@@ -86,7 +108,7 @@ instalar_componente() {
     local name=$2
     if ! command -v "$cmd" &> /dev/null; then
         show_progress 1.5 "Instalando $name..."
-        apt-get install "$cmd" -y > /dev/null 2>&1
+        $INSTALL_CMD "$cmd" > /dev/null 2>&1
     else
         echo -e "  ${VERDE}${ICON_CHECK}${NC} ${name} ya está presente en el sistema."
     fi
@@ -101,20 +123,18 @@ fi
 instalar_componente "python3" "Python 3 Core"
 instalar_componente "python3-venv" "Python VirtualEnv"
 instalar_componente "wget" "Wget Downloader"
+instalar_componente "bc" "Calculador de precisión"
 
 echo -e "\n${BOLD}${AZUL}--- CONFIGURACIÓN DEL TÚNEL ---${NC}"
 if ! command -v cloudflared &> /dev/null; then
     show_progress 3 "Descargando e instalando Cloudflared..."
-    ARCH=$(dpkg --print-architecture)
-    case $ARCH in
-        arm64) URL="https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-arm64.deb" ;;
-        amd64) URL="https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-amd64.deb" ;;
-        *) URL="https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-amd64.deb" ;;
-    esac
-    wget -q "$URL" -O cloudflared.deb
-    dpkg -i cloudflared.deb > /dev/null 2>&1
-    apt-get install -f -y > /dev/null 2>&1
-    rm cloudflared.deb
+
+    URL="https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-${ARCH}"
+
+	wget -q "$URL" -O cloudflared
+	chmod +x cloudflared
+	mv cloudflared /usr/local/bin/
+	echo -e "  ${VERDE}${ICON_CHECK}${NC} Cloudflared instalado en /usr/local/bin/"
 else
     echo -e "  ${VERDE}${ICON_CHECK}${NC} Motor de túnel detectado y activo."
 fi
@@ -122,13 +142,11 @@ fi
 echo -e "\n${BOLD}${AZUL}--- ENTORNO VIRTUAL ---${NC}"
 if [ ! -d "venv" ]; then
     show_progress 2 "Creando VENV y sincronizando librerías..."
-    python3 -m venv venv
-    source venv/bin/activate
-    pip install Flask python-dotenv requests -q
-else
-    source venv/bin/activate
-    echo -e "  ${VERDE}${ICON_CHECK}${NC} Entorno Python (VENV) listo."
+    python3 -m venv venv || { echo -e "${ROJO}${BOLD}[!] Error al crear venv${NC}"; exit 1; }
 fi
+echo -e "  ${VERDE}${ICON_CHECK}${NC} Entorno Python listo."
+source venv/bin/activate
+pip install Flask python-dotenv requests -q
 
 clear
 echo -e "\n${GRIS}------------------------------------------------------------${NC}"
